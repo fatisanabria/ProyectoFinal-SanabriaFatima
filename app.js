@@ -1,32 +1,4 @@
 const apiKey = '4b7cf8f0e53930ebd86c4576904f2718';
-const movieTitle = 'Uncharted';
-const movieReleaseDate = '2022'; // only consider movies released in 2022
-
-// API //
-
-fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${movieTitle}`)
-    .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Error: ' + response.status);
-    }
-  })
-  .then(data => {
-    const results = data.results;
-    const unchartedMovie = results.find(movie => {
-      return movie.title === movieTitle && movie.release_date.startsWith(movieReleaseDate);
-    });
-    if (unchartedMovie) {
-      console.log(unchartedMovie);
-    } else {
-      console.log(`Could not find ${movieTitle} (${movieReleaseDate}) in the search results.`);
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
-
 
 
 ////SECCIONES PELICULAS/////
@@ -50,7 +22,7 @@ async function showMoviesEstrenos() {
             const movieImg = document.createElement('img');
             movieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
             movieButton.appendChild(movieImg);
-            movieButton.classList.add('imagenesPeliculas'); // agregamos la clase "imagenesPeliculas"
+            movieButton.classList.add('imagenesPeliculas'); 
             movieButton.id = movie.id;
             movieContainerEstrenos.appendChild(movieButton);
             console.log(movie)
@@ -60,7 +32,6 @@ async function showMoviesEstrenos() {
         }
     }
 
-      // if there are no more movies to show, disable the button
     if (data.results.length <= 6) {
         const loadMoreButtonEstrenos = document.getElementById('load-more-button-estrenos');
         loadMoreButtonEstrenos.disabled = true;
@@ -333,13 +304,13 @@ async function showMoviesSerie() {
 // FUNCION ABRIR INFORMACION MODAL //
 
     async function abrirModal(movie) {
-        url = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-        tituloOriginal = movie.original_title
-        titulo = movie.title
-        review = movie.vote_average
-        año = movie.release_date
-        sinopsis = movie.overview
-        movieId = movie.id
+        let url = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+        let tituloOriginal = movie.original_title
+        let titulo = movie.title
+        let review = movie.vote_average
+        let año = movie.release_date
+        let sinopsis = movie.overview
+        let movieId = movie.id
         console.log(movieId)
         const detailsResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}`);
         const detailsData = await detailsResponse.json();
